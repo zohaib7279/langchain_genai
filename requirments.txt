@@ -1,6 +1,7 @@
 # LangChain Core
 langchain
-langchain-core
+pip install langchain-core langchain-openai openai langchain-anthropic google-generativeai langchain-google-genailangchain-huggingface transformers huggingface-hub
+
 
 # OpenAI Integration
 langchain-openai
