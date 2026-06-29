@@ -1,43 +1,35 @@
-import streamlit as st
 import os
-from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
+import streamlit as st
+from google import genai
 
-# .env file se API key load karo
-load_dotenv()
 
-st.title("AI Research Tool")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-# ✅ PEHLE: Model dropdown (UPER)
-model_options = [ 
-    "gemini-2.5-pro",
-    "gemini-2.0-flash-exp"
-]
-selected_model = st.selectbox("Select Model", model_options)
 
-# ✅ PHIR: Research Topic (NEECHE)
-topic = st.text_area("Research Topic", height=100)
+client = genai.Client(api_key=GEMINI_API_KEY)
 
-# ✅ SAB SE NEECHE: Button
-if st.button("Research"):
-    if not topic:
-        st.warning("Please enter a research topic!")
-    elif not os.getenv("GOOGLE_API_KEY"):
-        st.error("API key not found in .env file! Please add GOOGLE_API_KEY=your_key in .env")
-    else:
-        try:
-            # Model initialize karo - API key .env se
-            llm = ChatGoogleGenerativeAI(
-                model=selected_model,  # Dropdown se select ho raha hai
-                google_api_key=os.getenv("GOOGLE_API_KEY")  # .env se auto load
-            )
-            
-            # Response generate karo
-            response = llm.invoke(f"Research topic: {topic}")
-            
-            # Response show karo
-            st.success("Research Complete!")
-            st.write(response.content)
-            
-        except Exception as e:
-            st.error(f"Error: {str(e)}")
+
+def start_chatbot():
+
+    chat = client.chats.create(model="gemini-2.5-flash")
+
+    st.title("🤖 Gemini Chatbot")
+
+
+    user_message = st.chat_input("Message likho...")
+
+
+    if user_message:
+
+        st.write("You:", user_message)
+
+
+        response = chat.send_message(user_message)
+
+
+        st.write("🤖 Gemini:", response.text)
+
+
+
+if __name__ == "__main__":
+    start_chatbot()
