@@ -26,6 +26,7 @@ def start_chatbot():
         st.write(message)
 
 
+
     user_message = st.chat_input(
         "Message likho...",
         disabled=st.session_state.get("loading", False)
@@ -48,17 +49,33 @@ def start_chatbot():
 
         with st.spinner("🤖 Think the Gemini!"):
 
+
             last_message = st.session_state.messages[-1].replace(
                 "You: ",
                 ""
             )
 
-            response = chat.send_message(last_message)
+
+            response_text = ""
+
+
+            message_placeholder = st.empty()
+
+
+            for chunk in chat.send_message_stream(last_message):
+
+                response_text += chunk.text
+
+
+                message_placeholder.write(
+                    f"🤖 Gemini: {response_text}"
+                )
 
 
             st.session_state.messages.append(
-                f"🤖 Gemini: {response.text}"
+                f"🤖 Gemini: {response_text}"
             )
+
 
 
         st.session_state.loading = False
