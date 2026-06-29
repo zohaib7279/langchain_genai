@@ -16,18 +16,54 @@ def start_chatbot():
     st.title("🤖 Gemini Chatbot")
 
 
-    user_message = st.chat_input("Message likho...")
+    # chat history save karne ke liye
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+
+
+    # purane messages show karna
+    for message in st.session_state.messages:
+        st.write(message)
+
+
+    user_message = st.chat_input(
+        "Message likho...",
+        disabled=st.session_state.get("loading", False)
+    )
 
 
     if user_message:
 
-        st.write("You:", user_message)
+        st.session_state.loading = True
+
+        st.session_state.messages.append(
+            f"You: {user_message}"
+        )
+
+        st.rerun()
 
 
-        response = chat.send_message(user_message)
+
+    if st.session_state.get("loading", False):
+
+        with st.spinner("🤖 Gemini soch raha hai..."):
+
+            last_message = st.session_state.messages[-1].replace(
+                "You: ",
+                ""
+            )
+
+            response = chat.send_message(last_message)
 
 
-        st.write("🤖 Gemini:", response.text)
+            st.session_state.messages.append(
+                f"🤖 Gemini: {response.text}"
+            )
+
+
+        st.session_state.loading = False
+
+        st.rerun()
 
 
 
