@@ -46,7 +46,7 @@ def start_chatbot():
 
     if st.session_state.get("loading", False):
 
-        with st.spinner("🤖 Gemini soch raha hai..."):
+        with st.spinner("🤖 Think the Gemini!"):
 
             last_message = st.session_state.messages[-1].replace(
                 "You: ",
