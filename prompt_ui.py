@@ -13,12 +13,12 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 def start_chatbot():
 
     st.set_page_config(
-        page_title="Zohaib Gemini AI Chatbot",
-        page_icon="gemini.png"
+        page_title="Gemini AI Chatbot",
+        page_icon="gemini_img.png"
     )
 
 
-    st.title("Zohaib Gemini AI Chatbot")
+    st.title("Gemini AI Chatbot")
 
 
 
