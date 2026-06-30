@@ -12,14 +12,12 @@ st.set_page_config(
 )
 
 
-
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 
 client = genai.Client(
     api_key=GEMINI_API_KEY
 )
-
 
 
 
@@ -32,7 +30,7 @@ def start_chatbot():
 
 
 
-    # session states
+    # session data
 
     if "messages" not in st.session_state:
 
@@ -51,14 +49,10 @@ def start_chatbot():
 
 
 
-
     # Sidebar
 
 
-    # New Chat Button
-
     if st.sidebar.button("➕ New Chat"):
-
 
         st.session_state.messages = []
 
@@ -74,23 +68,16 @@ def start_chatbot():
 
     # Theme
 
-
     mode = st.sidebar.selectbox(
-
         "Theme",
-
         ["Light Mode", "Dark Mode"]
-
     )
-
 
 
 
     if mode == "Dark Mode":
 
-
         st.markdown(
-
             """
             <style>
 
@@ -102,12 +89,52 @@ def start_chatbot():
 
             }
 
+
+            .stMarkdown {
+
+                color:white;
+
+            }
+
+
             </style>
+
             """,
 
             unsafe_allow_html=True
-
         )
+
+
+    else:
+
+
+        st.markdown(
+            """
+            <style>
+
+            .stApp {
+
+                background-color:white;
+
+                color:black;
+
+            }
+
+
+            .stMarkdown {
+
+                color:black;
+
+            }
+
+
+            </style>
+
+            """,
+
+            unsafe_allow_html=True
+        )
+
 
 
 
@@ -118,24 +145,20 @@ def start_chatbot():
 
 
     st.write(
-
         """
         Zohaib Gemini AI Chatbot is a free AI assistant
         built using Google Gemini API and Streamlit.
         """
-
     )
 
 
 
 
 
-
-    # old messages show
+    # old messages
 
 
     for message in st.session_state.messages:
-
 
         st.write(message)
 
@@ -144,11 +167,10 @@ def start_chatbot():
 
 
 
-    # Stop button
+    # stop button
 
 
     if st.session_state.loading:
-
 
 
         if st.button("⏹ Stop answering"):
@@ -164,9 +186,7 @@ def start_chatbot():
 
 
 
-
-
-    # Input
+    # input
 
 
     user_message = st.chat_input(
@@ -181,14 +201,12 @@ def start_chatbot():
 
 
 
-
     if user_message:
 
 
         st.session_state.loading = True
 
         st.session_state.stop = False
-
 
 
         st.session_state.messages.append(
@@ -205,8 +223,7 @@ def start_chatbot():
 
 
 
-
-    # Gemini response
+    # Gemini streaming
 
 
     if st.session_state.loading:
@@ -258,7 +275,6 @@ def start_chatbot():
 
 
 
-
         if response_text:
 
 
@@ -267,8 +283,6 @@ def start_chatbot():
                 f"✦ Gemini: {response_text}"
 
             )
-
-
 
 
 
@@ -281,9 +295,6 @@ def start_chatbot():
 
 
 
-
-
 if __name__ == "__main__":
-
 
     start_chatbot()
