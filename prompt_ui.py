@@ -32,7 +32,6 @@ def start_chatbot():
 
 
     st.title("Gemini Chatbot")
-    st.icon("Gemini_img.png")
 
 
     # messages save karne ke liye
