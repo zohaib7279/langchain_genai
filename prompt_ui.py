@@ -30,191 +30,42 @@ def start_chatbot():
 
 
 
-    # session
+    # session states
 
     if "messages" not in st.session_state:
+
         st.session_state.messages = []
 
 
     if "loading" not in st.session_state:
+
         st.session_state.loading = False
 
 
     if "stop" not in st.session_state:
+
         st.session_state.stop = False
 
 
 
 
-    # Sidebar New Chat
+
+
+    # New Chat button
 
     if st.sidebar.button("➕ New Chat"):
 
+
         st.session_state.messages = []
+
 
         st.session_state.loading = False
 
+
         st.session_state.stop = False
 
+
         st.rerun()
-
-
-
-
-
-    # Theme
-
-    mode = st.sidebar.selectbox(
-        "Theme",
-        [
-            "Light Mode",
-            "Dark Mode"
-        ]
-    )
-
-
-
-
-    # CSS Theme
-
-
-    if mode == "Dark Mode":
-
-
-        st.markdown(
-            """
-            <style>
-
-
-            .stApp,
-            [data-testid="stAppViewContainer"],
-            [data-testid="stHeader"],
-            [data-testid="stSidebar"],
-            [data-testid="stChatInput"] {
-
-
-                background-color:#0e1117 !important;
-
-                color:white !important;
-
-            }
-
-
-
-
-            [data-testid="stChatInput"] textarea {
-
-
-                color:white !important;
-
-
-            }
-
-
-
-
-
-            .stButton button {
-
-
-                background-color:#262730 !important;
-
-                color:white !important;
-
-
-            }
-
-
-
-            .stMarkdown {
-
-
-                color:white !important;
-
-
-            }
-
-
-
-            </style>
-
-            """,
-
-            unsafe_allow_html=True
-        )
-
-
-
-
-    else:
-
-
-        st.markdown(
-            """
-            <style>
-
-
-            .stApp,
-            [data-testid="stAppViewContainer"],
-            [data-testid="stHeader"],
-            [data-testid="stSidebar"],
-            [data-testid="stChatInput"] {
-
-
-                background-color:white !important;
-
-                color:black !important;
-
-
-            }
-
-
-
-
-            [data-testid="stChatInput"] textarea {
-
-
-                color:black !important;
-
-
-            }
-
-
-
-
-
-            .stButton button {
-
-
-                background-color:white !important;
-
-                color:black !important;
-
-                border:1px solid #ccc !important;
-
-
-            }
-
-
-
-
-
-            .stMarkdown {
-
-
-                color:black !important;
-
-
-            }
-
-
-
-            </style>
-
-            """,
-
-            unsafe_allow_html=True
-        )
 
 
 
@@ -239,6 +90,7 @@ def start_chatbot():
 
 
 
+
     # old messages
 
 
@@ -252,8 +104,7 @@ def start_chatbot():
 
 
 
-
-    # Stop button
+    # stop button
 
 
     if st.session_state.loading:
@@ -264,9 +115,12 @@ def start_chatbot():
 
             st.session_state.stop = True
 
+
             st.session_state.loading = False
 
+
             st.rerun()
+
 
 
 
@@ -289,12 +143,16 @@ def start_chatbot():
 
 
 
+
+
     if user_message:
 
 
         st.session_state.loading = True
 
+
         st.session_state.stop = False
+
 
 
         st.session_state.messages.append(
@@ -318,6 +176,7 @@ def start_chatbot():
     if st.session_state.loading:
 
 
+
         last_message = (
 
             st.session_state.messages[-1]
@@ -328,10 +187,12 @@ def start_chatbot():
 
 
 
+
         response_box = st.empty()
 
 
         response_text = ""
+
 
 
 
@@ -344,6 +205,7 @@ def start_chatbot():
 
 
                 if st.session_state.stop:
+
 
                     break
 
@@ -358,6 +220,7 @@ def start_chatbot():
                     f"✦ Gemini: {response_text}"
 
                 )
+
 
 
 
