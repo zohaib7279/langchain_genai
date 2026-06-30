@@ -47,7 +47,7 @@ def start_chatbot():
 
     # loading ke time input band
     user_message = st.chat_input(
-        "Message likho...",
+        "Write your messege ...",
         disabled=st.session_state.get("loading", False)
     )
 
