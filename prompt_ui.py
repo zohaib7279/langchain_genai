@@ -3,87 +3,63 @@ import streamlit as st
 from google import genai
 
 
+# Google Search Console verification
+st.markdown(
+    """
+    <meta name="google-site-verification" content="FBj_NTHBD-enf_t6o4CM6Oe502FUv4BlfUv-aIoLZwQ" />
+    """,
+    unsafe_allow_html=True
+)
+
+
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 
-
 def start_chatbot():
 
-    st.set_page_config(
-        page_title="Gemini AI Chatbot",
-        page_icon="gemini_img.png"
+    chat = client.chats.create(
+        model="gemini-2.5-flash"
     )
 
 
-    st.title("Gemini AI Chatbot")
+    st.set_page_config(
+        page_title="Gemini Chatbot",
+        page_icon="✨"
+    )
 
 
-
-    if "chat" not in st.session_state:
-
-        st.session_state.chat = client.chats.create(
-            model="gemini-2.5-flash"
-        )
+    st.title("✨ Gemini Chatbot")
 
 
-
+    # messages save karne ke liye
     if "messages" not in st.session_state:
-
         st.session_state.messages = []
 
 
-
-    if "loading" not in st.session_state:
-
-        st.session_state.loading = False
-
-
-
-
-    # purane messages
-
+    # purane messages show
     for message in st.session_state.messages:
-
-        role, text = message.split(":",1)
-
-
-        if role == "You":
-
-            with st.chat_message("user"):
-                st.write(text)
-
-
-        else:
-
-            with st.chat_message("assistant"):
-                st.write(text)
+        st.write(message)
 
 
 
-
-
-    # input disable jab Gemini soch raha ho
-
+    # loading ke time input band
     user_message = st.chat_input(
         "Message likho...",
-        disabled=st.session_state.loading
+        disabled=st.session_state.get("loading", False)
     )
-
-
 
 
 
     if user_message:
 
-
         st.session_state.loading = True
 
 
         st.session_state.messages.append(
-            f"You:{user_message}"
+            f"You: {user_message}"
         )
 
 
@@ -91,69 +67,28 @@ def start_chatbot():
 
 
 
-
-
     # Gemini response
-
-    if st.session_state.loading:
-
-
-        with st.chat_message("assistant"):
+    if st.session_state.get("loading", False):
 
 
-            with st.spinner("🤖 Think the gemini!"):
+        with st.spinner("✨ Gemini soch raha hai..."):
 
 
-                placeholder = st.empty()
+            last_message = (
+                st.session_state
+                .messages[-1]
+                .replace("You: ", "")
+            )
 
 
-                full_response = ""
+            response = chat.send_message(
+                last_message
+            )
 
 
-
-                try:
-
-
-                    stream = st.session_state.chat.send_message_stream(
-                        st.session_state.messages[-1].replace(
-                            "You:",
-                            ""
-                        )
-                    )
-
-
-
-                    for chunk in stream:
-
-
-                        full_response += chunk.text
-
-
-                        placeholder.write(
-                            full_response
-                        )
-
-
-
-
-
-                    st.session_state.messages.append(
-                        f"Gemini:{full_response}"
-                    )
-
-
-
-                except Exception as e:
-
-
-                    st.error(
-                        "❌ Error "
-                    )
-
-                    st.write(e)
-
-
-
+            st.session_state.messages.append(
+                f"✨ Gemini: {response.text}"
+            )
 
 
         st.session_state.loading = False
@@ -163,8 +98,5 @@ def start_chatbot():
 
 
 
-
-
 if __name__ == "__main__":
-
     start_chatbot()
