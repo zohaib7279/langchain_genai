@@ -27,11 +27,12 @@ def start_chatbot():
 
     st.set_page_config(
         page_title="Gemini Chatbot",
-        page_icon="✨"
+        page_icon="gemini_img.png"
     )
 
 
-    st.title("✨ Gemini Chatbot")
+    st.title("Gemini Chatbot")
+    st.icon("Gemini_img.png")
 
 
     # messages save karne ke liye
