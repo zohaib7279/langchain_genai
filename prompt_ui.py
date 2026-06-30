@@ -13,12 +13,12 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 def start_chatbot():
 
     st.set_page_config(
-        page_title="Gemini Chatbot",
-        page_icon="🤖"
+        page_title="Zohaib Gemini AI Chatbot",
+        page_icon="gemini.png"
     )
 
 
-    st.title("🤖 Gemini Chatbot")
+    st.title("Zohaib Gemini AI Chatbot")
 
 
 
@@ -101,7 +101,7 @@ def start_chatbot():
         with st.chat_message("assistant"):
 
 
-            with st.spinner("🤖 Gemini soch raha hai..."):
+            with st.spinner("🤖 Think the gemini!"):
 
 
                 placeholder = st.empty()
@@ -147,7 +147,7 @@ def start_chatbot():
 
 
                     st.error(
-                        "❌ Error aa gaya"
+                        "❌ Error "
                     )
 
                     st.write(e)
