@@ -71,7 +71,7 @@ def start_chatbot():
     if st.session_state.get("loading", False):
 
 
-        with st.spinner("✨ Gemini soch raha hai..."):
+        with st.spinner("✦ Think the gemini"):
 
 
             last_message = (
@@ -87,7 +87,7 @@ def start_chatbot():
 
 
             st.session_state.messages.append(
-                f"✨ Gemini: {response.text}"
+                f"✦ Gemini: {response.text}"
             )
 
 
