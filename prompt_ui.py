@@ -3,6 +3,13 @@ import streamlit as st
 from google import genai
 
 
+# Page settings
+st.set_page_config(
+    page_title="Gemini Chatbot",
+    page_icon="gemini_img.png"
+)
+
+
 # Google Search Console verification
 st.markdown(
     """
@@ -18,16 +25,11 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 
+
 def start_chatbot():
 
     chat = client.chats.create(
         model="gemini-2.5-flash"
-    )
-
-
-    st.set_page_config(
-        page_title="Gemini Chatbot",
-        page_icon="gemini_img.png"
     )
 
 
@@ -45,9 +47,9 @@ def start_chatbot():
 
 
 
-    # loading ke time input band
+    # jab Gemini response de raha ho to input band
     user_message = st.chat_input(
-        "Write your messege ...",
+        "Message likho...",
         disabled=st.session_state.get("loading", False)
     )
 
@@ -71,7 +73,7 @@ def start_chatbot():
     if st.session_state.get("loading", False):
 
 
-        with st.spinner("✦ Think the gemini"):
+        with st.spinner("✦ Think the Gemini..."):
 
 
             last_message = (
