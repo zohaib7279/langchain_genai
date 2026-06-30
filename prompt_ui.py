@@ -30,7 +30,7 @@ def start_chatbot():
 
 
 
-    # Session states
+    # session
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -46,9 +46,7 @@ def start_chatbot():
 
 
 
-
-
-    # Sidebar
+    # Sidebar New Chat
 
     if st.sidebar.button("➕ New Chat"):
 
@@ -63,45 +61,88 @@ def start_chatbot():
 
 
 
+
     # Theme
 
     mode = st.sidebar.selectbox(
         "Theme",
-        ["Light Mode", "Dark Mode"]
+        [
+            "Light Mode",
+            "Dark Mode"
+        ]
     )
 
 
 
+
+    # CSS Theme
+
+
     if mode == "Dark Mode":
+
 
         st.markdown(
             """
             <style>
 
+
             .stApp,
             [data-testid="stAppViewContainer"],
             [data-testid="stHeader"],
-            [data-testid="stSidebar"] {
+            [data-testid="stSidebar"],
+            [data-testid="stChatInput"] {
 
-                background-color:#0e1117;
 
-                color:white;
+                background-color:#0e1117 !important;
+
+                color:white !important;
 
             }
+
+
+
+
+            [data-testid="stChatInput"] textarea {
+
+
+                color:white !important;
+
+
+            }
+
+
+
+
+
+            .stButton button {
+
+
+                background-color:#262730 !important;
+
+                color:white !important;
+
+
+            }
+
 
 
             .stMarkdown {
 
-                color:white;
+
+                color:white !important;
+
 
             }
 
 
+
             </style>
+
             """,
 
             unsafe_allow_html=True
         )
+
 
 
 
@@ -116,22 +157,52 @@ def start_chatbot():
             .stApp,
             [data-testid="stAppViewContainer"],
             [data-testid="stHeader"],
-            [data-testid="stSidebar"] {
+            [data-testid="stSidebar"],
+            [data-testid="stChatInput"] {
 
 
-                background-color:white;
+                background-color:white !important;
 
-                color:black;
+                color:black !important;
 
 
             }
 
 
 
+
+            [data-testid="stChatInput"] textarea {
+
+
+                color:black !important;
+
+
+            }
+
+
+
+
+
+            .stButton button {
+
+
+                background-color:white !important;
+
+                color:black !important;
+
+                border:1px solid #ccc !important;
+
+
+            }
+
+
+
+
+
             .stMarkdown {
 
 
-                color:black;
+                color:black !important;
 
 
             }
@@ -139,6 +210,7 @@ def start_chatbot():
 
 
             </style>
+
             """,
 
             unsafe_allow_html=True
@@ -156,7 +228,7 @@ def start_chatbot():
 
     st.write(
         """
-        Zohaib Gemini AI Chatbot is a free AI assistant
+        Zohaib Gemini AI Chatbot is a free AI assistant 
         built using Google Gemini API and Streamlit.
         """
     )
@@ -167,11 +239,13 @@ def start_chatbot():
 
 
 
-    # Old messages show
+    # old messages
+
 
     for message in st.session_state.messages:
 
         st.write(message)
+
 
 
 
@@ -199,8 +273,7 @@ def start_chatbot():
 
 
 
-
-    # Chat input
+    # input
 
 
     user_message = st.chat_input(
@@ -224,7 +297,6 @@ def start_chatbot():
         st.session_state.stop = False
 
 
-
         st.session_state.messages.append(
 
             f"You: {user_message}"
@@ -240,11 +312,10 @@ def start_chatbot():
 
 
 
-    # Gemini streaming response
+    # Gemini streaming
 
 
     if st.session_state.loading:
-
 
 
         last_message = (
@@ -265,7 +336,6 @@ def start_chatbot():
 
 
 
-
         with st.spinner("✦ Think the Gemini..."):
 
 
@@ -274,7 +344,6 @@ def start_chatbot():
 
 
                 if st.session_state.stop:
-
 
                     break
 
@@ -289,7 +358,6 @@ def start_chatbot():
                     f"✦ Gemini: {response_text}"
 
                 )
-
 
 
 
@@ -313,6 +381,7 @@ def start_chatbot():
 
 
         st.rerun()
+
 
 
 
