@@ -9,80 +9,165 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 
+
 def start_chatbot():
 
-    chat = client.chats.create(model="gemini-2.5-flash")
+
+    st.set_page_config(
+        page_title="Gemini Chatbot",
+        page_icon="🤖"
+    )
+
+
 
     st.title("🤖 Gemini Chatbot")
 
 
-    # chat history save karne ke liye
+
+    # New chat button
+    if st.button("🆕 New Chat"):
+
+        st.session_state.messages = []
+
+        st.rerun()
+
+
+
+    # chat session
+    if "chat" not in st.session_state:
+
+        st.session_state.chat = client.chats.create(
+            model="gemini-2.5-flash"
+        )
+
+
+
+    # messages memory
     if "messages" not in st.session_state:
+
         st.session_state.messages = []
 
 
-    # purane messages show karna
-    for message in st.session_state.messages:
-        st.write(message)
+
+    # loading state
+    if "loading" not in st.session_state:
+
+        st.session_state.loading = False
+
+
+
+
+    # old messages show
+
+    for msg in st.session_state.messages:
+
+        role, text = msg.split(":",1)
+
+
+        if role == "You":
+
+            with st.chat_message("user"):
+
+                st.write(text)
+
+
+        else:
+
+            with st.chat_message("assistant"):
+
+                st.write(text)
+
+
+
 
 
 
     user_message = st.chat_input(
         "Message likho...",
-        disabled=st.session_state.get("loading", False)
+        disabled=st.session_state.loading
     )
+
+
 
 
     if user_message:
 
+
         st.session_state.loading = True
 
+
         st.session_state.messages.append(
-            f"You: {user_message}"
+            f"You:{user_message}"
         )
+
 
         st.rerun()
 
 
 
-    if st.session_state.get("loading", False):
-
-        with st.spinner("🤖 Think the Gemini!"):
 
 
-            last_message = st.session_state.messages[-1].replace(
-                "You: ",
-                ""
-            )
+
+    if st.session_state.loading:
 
 
-            response_text = ""
+        with st.chat_message("assistant"):
 
 
-            message_placeholder = st.empty()
+            placeholder = st.empty()
 
 
-            for chunk in chat.send_message_stream(last_message):
-
-                response_text += chunk.text
+            answer = ""
 
 
-                message_placeholder.write(
-                    f"🤖 Gemini: {response_text}"
+
+            try:
+
+
+                for chunk in st.session_state.chat.send_message_stream(
+                    st.session_state.messages[-1].replace(
+                        "You:",
+                        ""
+                    )
+                ):
+
+
+                    answer += chunk.text
+
+
+                    placeholder.write(answer)
+
+
+
+
+                st.session_state.messages.append(
+                    f"Gemini:{answer}"
                 )
 
 
-            st.session_state.messages.append(
-                f"🤖 Gemini: {response_text}"
-            )
+
+            except Exception as e:
+
+
+                st.error(
+                    "❌ Gemini se response nahi aa raha. Dobara try karo."
+                )
+
+
+                st.write(e)
 
 
 
         st.session_state.loading = False
 
+
         st.rerun()
 
 
 
+
+
+
 if __name__ == "__main__":
+
     start_chatbot()
