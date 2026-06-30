@@ -4,8 +4,11 @@ from google import genai
 
 
 st.set_page_config(
-    page_title="Gemini Chatbot",
-    page_icon="gemini_img.png"
+    page_title="Zohaib Gemini AI Chatbot",
+    page_icon="gemini_img.png",
+    menu_items={
+        "About": "Zohaib Gemini AI Chatbot powered by Google Gemini"
+    }
 )
 
 
@@ -26,8 +29,11 @@ def start_chatbot():
     st.title("Gemini Chatbot")
 
     st.write(
-        "Google Gemini AI chatbot built with Streamlit"
-    )
+    """
+    Zohaib Gemini AI Chatbot is a free AI assistant 
+    built using Google Gemini API and Streamlit.
+    """
+)
 
 
     # messages save karne ke liye
