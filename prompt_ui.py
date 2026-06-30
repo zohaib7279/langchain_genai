@@ -30,27 +30,25 @@ def start_chatbot():
 
 
 
-    # session data
+    # Session states
 
     if "messages" not in st.session_state:
-
         st.session_state.messages = []
 
 
     if "loading" not in st.session_state:
-
         st.session_state.loading = False
 
 
     if "stop" not in st.session_state:
-
         st.session_state.stop = False
 
 
 
 
-    # Sidebar
 
+
+    # Sidebar
 
     if st.sidebar.button("➕ New Chat"):
 
@@ -61,7 +59,6 @@ def start_chatbot():
         st.session_state.stop = False
 
         st.rerun()
-
 
 
 
@@ -81,7 +78,10 @@ def start_chatbot():
             """
             <style>
 
-            .stApp {
+            .stApp,
+            [data-testid="stAppViewContainer"],
+            [data-testid="stHeader"],
+            [data-testid="stSidebar"] {
 
                 background-color:#0e1117;
 
@@ -98,11 +98,11 @@ def start_chatbot():
 
 
             </style>
-
             """,
 
             unsafe_allow_html=True
         )
+
 
 
     else:
@@ -112,28 +112,38 @@ def start_chatbot():
             """
             <style>
 
-            .stApp {
+
+            .stApp,
+            [data-testid="stAppViewContainer"],
+            [data-testid="stHeader"],
+            [data-testid="stSidebar"] {
+
 
                 background-color:white;
 
                 color:black;
 
+
             }
+
 
 
             .stMarkdown {
 
+
                 color:black;
+
 
             }
 
 
-            </style>
 
+            </style>
             """,
 
             unsafe_allow_html=True
         )
+
 
 
 
@@ -155,8 +165,9 @@ def start_chatbot():
 
 
 
-    # old messages
 
+
+    # Old messages show
 
     for message in st.session_state.messages:
 
@@ -167,7 +178,8 @@ def start_chatbot():
 
 
 
-    # stop button
+
+    # Stop button
 
 
     if st.session_state.loading:
@@ -186,7 +198,9 @@ def start_chatbot():
 
 
 
-    # input
+
+
+    # Chat input
 
 
     user_message = st.chat_input(
@@ -201,12 +215,14 @@ def start_chatbot():
 
 
 
+
     if user_message:
 
 
         st.session_state.loading = True
 
         st.session_state.stop = False
+
 
 
         st.session_state.messages.append(
@@ -223,7 +239,8 @@ def start_chatbot():
 
 
 
-    # Gemini streaming
+
+    # Gemini streaming response
 
 
     if st.session_state.loading:
@@ -244,6 +261,8 @@ def start_chatbot():
 
 
         response_text = ""
+
+
 
 
 
@@ -275,6 +294,8 @@ def start_chatbot():
 
 
 
+
+
         if response_text:
 
 
@@ -286,10 +307,13 @@ def start_chatbot():
 
 
 
+
+
         st.session_state.loading = False
 
 
         st.rerun()
+
 
 
 
