@@ -3,20 +3,9 @@ import streamlit as st
 from google import genai
 
 
-# Page settings
 st.set_page_config(
     page_title="Gemini Chatbot",
     page_icon="gemini_img.png"
-)
-
-
-# Google Search Console verification
-st.markdown(
-    """
-    <meta name="google-site-verification" content="FBj_NTHBD-enf_t6o4CM6Oe502FUv4BlfUv-aIoLZwQ" />
-    
-    """,
-    unsafe_allow_html=True
 )
 
 
@@ -36,6 +25,10 @@ def start_chatbot():
 
     st.title("Gemini Chatbot")
 
+    st.write(
+        "Google Gemini AI chatbot built with Streamlit"
+    )
+
 
     # messages save karne ke liye
     if "messages" not in st.session_state:
@@ -48,7 +41,7 @@ def start_chatbot():
 
 
 
-    # jab Gemini response de raha ho to input band
+    # response ke time input band
     user_message = st.chat_input(
         "Message likho...",
         disabled=st.session_state.get("loading", False)
@@ -70,7 +63,6 @@ def start_chatbot():
 
 
 
-    # Gemini response
     if st.session_state.get("loading", False):
 
 
